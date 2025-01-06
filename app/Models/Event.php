@@ -4,11 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Post extends Model
+class Event extends Model
 {
-    protected $fillable = ["post", "images"];
+    protected $fillable = [
+        "name",
+        "description",
+        "image",
+        "date",
+        "start_time",
+        "end_time",
+    ];
 
 
     public function user():BelongsTo

@@ -37,6 +37,13 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Posts
                                 </NavLink>
+
+                                <NavLink
+                                    href={route("events.index")}
+                                    active={route().current("events.*")}
+                                >
+                                    Events
+                                </NavLink>
                             </div>
                         </div>
 
@@ -146,6 +153,12 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current("posts.*")}
                         >
                             Post
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route("events.index")}
+                            active={route().current("events.*")}
+                        >
+                            Events
                         </ResponsiveNavLink>
                     </div>
 

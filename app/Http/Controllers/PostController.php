@@ -14,7 +14,7 @@ class PostController extends Controller
     public function index()
     {
         return Inertia::render("Post/Index", [
-            "posts" => Post::all()
+            "posts" => Post::with('user')->get()
         ]);
     }
 
