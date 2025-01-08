@@ -1,34 +1,52 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
-import Create from "./Create";
 
-export default function Index({ events }) {
+export default function Show({ event }) {
     return (
         <AuthenticatedLayout>
-            <Head title="Events" />
-
-            <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
-                <header className="flex items-center justify-between mb-10">
-                    <h3 className="font-medium text-2xl">Events</h3>
-                    <Create />
-                </header>
-
-                <div className=" mx-auto grid gap-5 lg:grid-cols-2 lg:max-w-none">
-                    {events.map((event) => (
-                        <Link
-                            href={route("events.show", event.id)}
-                            key={event.id}
-                            className="flex flex-col rounded-lg shadow-lg overflow-hidden"
+            <div className="relative isolate overflow-hidden  px-6 py-16 lg:overflow-visible lg:px-0">
+                <div className="absolute inset-0 -z-10 overflow-hidden">
+                    <svg
+                        aria-hidden="true"
+                        className="absolute left-[max(50%,25rem)] top-0 h-[64rem] w-[128rem] -translate-x-1/2 stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)]"
+                    >
+                        <defs>
+                            <pattern
+                                x="50%"
+                                y={-1}
+                                id="e813992c-7d03-4cc4-a2bd-151760b470a0"
+                                width={200}
+                                height={200}
+                                patternUnits="userSpaceOnUse"
+                            >
+                                <path d="M100 200V.5M.5 .5H200" fill="none" />
+                            </pattern>
+                        </defs>
+                        <svg
+                            x="50%"
+                            y={-1}
+                            className="overflow-visible fill-gray-100"
                         >
-                            <div className="flex-shrink-0">
-                                <img
-                                    className="h-72 w-full object-cover"
-                                    src={`/storage/${event.image}`}
-                                    alt=""
-                                />
-                            </div>
-                            <div className="flex-1 bg-white p-6 flex flex-col justify-between">
-                                <div className="flex-1">
+                            <path
+                                d="M-100.5 0h201v201h-201Z M699.5 0h201v201h-201Z M499.5 400h201v201h-201Z M-300.5 600h201v201h-201Z"
+                                strokeWidth={0}
+                            />
+                        </svg>
+                        <rect
+                            fill="url(#e813992c-7d03-4cc4-a2bd-151760b470a0)"
+                            width="100%"
+                            height="100%"
+                            strokeWidth={0}
+                        />
+                    </svg>
+                </div>
+                <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:items-start lg:gap-y-10">
+                    <div className="">
+                        <div className="lg:pr-4">
+                            <div className="max-w-6xl mx-auto">
+                                <h1 className="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+                                    {event.name}
+                                </h1>
+                                <div className="mt-4">
                                     <div className="flex items-center gap-4">
                                         <p className="text-sm font-medium flex gap-2 items-center">
                                             <svg
@@ -75,37 +93,29 @@ export default function Index({ events }) {
                                             </time>
                                         </div>
                                     </div>
-                                    <div className="block mt-2">
-                                        <p className="text-xl font-semibold text-gray-900">
-                                            {event.name}
-                                        </p>
-                                        <p className="mt-3 text-base text-gray-500 line-clamp-3">
-                                            {event.description}
-                                        </p>
-                                    </div>
                                 </div>
-                                <div className="mt-6 flex items-center">
-                                    <div className="flex-shrink-0">
-                                        <h3>
-                                            <span className="sr-only">
-                                                {event.user.name}
-                                            </span>
-                                            <img
-                                                className="h-7 w-7 rounded-full"
-                                                src="https://upload.wikimedia.org/wikipedia/en/7/75/Pangasinan_State_University_logo.png"
-                                                alt=""
-                                            />
-                                        </h3>
-                                    </div>
-                                    <div className="ml-3">
-                                        <p className="text-base font-medium text-gray-900">
-                                            {event.user.name}
-                                        </p>
-                                    </div>
+
+                                <div className="w-full h-[30rem] mt-4">
+                                    <img
+                                        alt=""
+                                        src={`/storage/${event.image}`}
+                                        className=" h-full object-cover rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 w-full"
+                                    />
                                 </div>
+
+                                <p className="mt-6 text-xl/8 text-gray-700">
+                                    {event.description}
+                                </p>
                             </div>
-                        </Link>
-                    ))}
+                        </div>
+                    </div>
+                    {/*                     <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
+                        <img
+                            alt=""
+                            src={`/storage/${event.image}`}
+                            classname="w-[48rem] h-[30rem] object-cover max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
+                        />
+                    </div> */}
                 </div>
             </div>
         </AuthenticatedLayout>

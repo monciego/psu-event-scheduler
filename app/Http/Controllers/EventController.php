@@ -33,7 +33,7 @@ class EventController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string',
             'date' => 'required|date',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
@@ -65,7 +65,9 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return Inertia::render("Events/Show", [
+            "event" => $event
+        ]);
     }
 
     /**
