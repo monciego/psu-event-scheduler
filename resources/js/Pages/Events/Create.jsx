@@ -17,7 +17,8 @@ export default function Create({ auth }) {
     const { data, setData, post, processing, reset, errors } = useForm({
         title: "",
         description: "",
-        date: "",
+        start: "",
+        end: "",
         start_time: "",
         end_time: "",
         image: "",
@@ -100,25 +101,56 @@ export default function Create({ auth }) {
                             />
                         </div>
 
-                        <div className="mt-4">
-                            <InputLabel htmlFor="date" value="Event Date" />
+                        <div className="flex items-center gap-4">
+                            <div className="w-full">
+                                <div className="mt-4">
+                                    <InputLabel
+                                        htmlFor="start"
+                                        value="Event Start Date"
+                                    />
 
-                            <TextInput
-                                id="date"
-                                type="date"
-                                name="date"
-                                value={data.date}
-                                className="mt-1 block w-full"
-                                autoComplete="event-date"
-                                onChange={(e) =>
-                                    setData("date", e.target.value)
-                                }
-                            />
+                                    <TextInput
+                                        id="start"
+                                        type="date"
+                                        name="start"
+                                        value={data.start}
+                                        className="mt-1 block w-full"
+                                        autoComplete="event-start-date"
+                                        onChange={(e) =>
+                                            setData("start", e.target.value)
+                                        }
+                                    />
 
-                            <InputError
-                                message={errors.date}
-                                className="mt-2"
-                            />
+                                    <InputError
+                                        message={errors.start}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                <div className="mt-4">
+                                    <InputLabel
+                                        htmlFor="end"
+                                        value="Event End Date"
+                                    />
+
+                                    <TextInput
+                                        id="end"
+                                        type="date"
+                                        name="end"
+                                        value={data.end}
+                                        className="mt-1 block w-full"
+                                        autoComplete="event-end-date"
+                                        onChange={(e) =>
+                                            setData("end", e.target.value)
+                                        }
+                                    />
+
+                                    <InputError
+                                        message={errors.end}
+                                        className="mt-2"
+                                    />
+                                </div>
+                            </div>
                         </div>
 
                         <div className="flex items-center gap-4">

@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string("title");
             $table->string("description");
             $table->longText("image");
-            $table->string("date");
+            $table->string("start");
+            $table->string("end");
             $table->string("start_time");
             $table->string("end_time");
             $table->timestamps();

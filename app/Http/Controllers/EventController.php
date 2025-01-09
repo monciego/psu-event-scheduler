@@ -35,7 +35,8 @@ class EventController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'date' => 'required|date',
+            'start' => 'required|date',
+            'end' => 'required|date|after_or_equal:date',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -49,7 +50,8 @@ class EventController extends Controller
             'title' => $validated['title'],
             'image' => $uploadedImage,
             'description' => $validated['description'],
-            'date' => $validated['date'],
+            'start' => $validated['start'],
+            'end' => $validated['end'],
             'start_time' => $validated['start_time'],
             'end_time' => $validated['end_time'],
         ]);
