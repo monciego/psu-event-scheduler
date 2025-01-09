@@ -44,7 +44,7 @@ export default function Show({ event }) {
                         <div className="lg:pr-4">
                             <div className="max-w-6xl mx-auto">
                                 <h1 className="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                                    {event.name}
+                                    {event.title}
                                 </h1>
                                 <div className="mt-4">
                                     <div className="flex items-center gap-4">

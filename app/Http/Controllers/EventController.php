@@ -32,7 +32,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
             'date' => 'required|date',
             'start_time' => 'required',
@@ -45,7 +45,7 @@ class EventController extends Controller
         }
 
        $request->user()->events()->create([
-            'name' => $validated['name'],
+            'title' => $validated['title'],
             'image' => $uploadedImage,
             'description' => $validated['description'],
             'date' => $validated['date'],

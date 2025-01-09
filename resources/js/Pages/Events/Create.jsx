@@ -15,7 +15,7 @@ export default function Create({ auth }) {
     };
 
     const { data, setData, post, processing, reset, errors } = useForm({
-        name: "",
+        title: "",
         description: "",
         date: "",
         start_time: "",
@@ -60,22 +60,22 @@ export default function Create({ auth }) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="name" value="Event name" />
+                            <InputLabel htmlFor="title" value="Event name" />
 
                             <TextInput
-                                id="name"
+                                id="title"
                                 type="text"
-                                name="name"
-                                value={data.name}
+                                name="title"
+                                value={data.title}
                                 className="mt-1 block w-full"
                                 autoComplete="event-name"
                                 onChange={(e) =>
-                                    setData("name", e.target.value)
+                                    setData("title", e.target.value)
                                 }
                             />
 
                             <InputError
-                                message={errors.name}
+                                message={errors.title}
                                 className="mt-2"
                             />
                         </div>
