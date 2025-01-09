@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'superadministrator@psu.com',
         ]);
 
-       $doitUser =  User::factory()->create([
+        User::factory()->create([
             'name' => 'Domain of Information Technology ',
             'email' => 'doit@psu.com',
         ]);
