@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -14,7 +15,7 @@ class PostController extends Controller
     public function index()
     {
         return Inertia::render("Post/Index", [
-            "posts" => Post::with('user')->get()
+            "posts" => Post::with('user')->where('user_id', Auth::id())->get()
         ]);
     }
 

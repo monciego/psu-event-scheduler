@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class EventController extends Controller
@@ -14,7 +15,7 @@ class EventController extends Controller
     public function index()
     {
         return Inertia::render("Events/Index", [
-            "events" => Event::with("user")->get()
+            "events" => Event::with("user")->where("user_id", Auth::id())->get()
         ]);
     }
 
