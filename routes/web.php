@@ -24,6 +24,8 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/psu/posts', [HomeController::class, 'postIndex']);
+Route::get('/psu/events', [HomeController::class, 'eventIndex']);
+Route::get('/psu/events/{event}', [HomeController::class, 'eventShow'])->name("event.home.show");
 
 Route::middleware('auth')->group(function () {
     Route::resource("posts", PostController::class);

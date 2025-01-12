@@ -2,19 +2,15 @@ import {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
 } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, usePage } from "@inertiajs/react";
 import ApplicationLogo from "./ApplicationLogo";
 
 const navigation = [
-    { name: "Posts", href: "/psu/posts", current: true },
-    { name: "Events", href: "/psu/events", current: false },
-    { name: "Calendar", href: "/psu/calendar", current: false },
+    { name: "Posts", href: "/psu/posts" },
+    { name: "Events", href: "/psu/events" },
+    { name: "Calendar", href: "/psu/calendar" },
 ];
 
 function classNames(...classes) {
