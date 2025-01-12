@@ -79,7 +79,33 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $validated = $request->validate([
+            'post' => 'required|string|max:255',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each file
+        ]);
+
+    $uploadedImages = $post->images ? json_decode($post->images, true) : []; // Load existing images
+
+        if ($request->hasFile('images')) {
+        $uploadedImages = []; // Clear existing images if new ones are uploaded
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('uploads/images', 'public'); // Store in the 'public/uploads/images' directory
+                $uploadedImages[] = $path;
+            }
+        } else {
+
+        }
+
+        $post->update([
+            'post' => $validated['post'],
+            'images' => json_encode($uploadedImages), // Save as JSON
+        ]);
+
+        dd("save");
+
+
+
+        return redirect(route('posts.index'));
     }
 
     /**

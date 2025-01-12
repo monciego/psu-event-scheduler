@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import Create from "./Create";
 import { PhotoProvider, PhotoView } from "react-photo-view";
+import Edit from "./Edit";
 
 export default function Index({ posts }) {
     const updatedPosts = posts.map((post) => {
@@ -86,6 +87,10 @@ export default function Index({ posts }) {
                                         </PhotoView>
                                     ))}
                                 </PhotoProvider>
+                            </div>
+
+                            <div className="mt-4">
+                                <Edit postData={post} />
                             </div>
                         </div>
                     ))}
