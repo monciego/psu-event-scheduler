@@ -86,7 +86,38 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'start' => 'required|date',
+            'end' => 'required|date|after_or_equal:date',
+            'start_time' => 'required',
+            'end_time' => 'required|after:start_time',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+      $uploadedImage = $event->image ;
+
+
+        if ($request->hasFile('image')) {
+            $uploadedImage = $request->file('image')->store('uploads/images', 'public');
+        }
+
+        $event->update([
+            'title' => $validated['title'],
+            'image' => $uploadedImage,
+            'description' => $validated['description'],
+            'start' => $validated['start'],
+            'end' => $validated['end'],
+            'start_time' => $validated['start_time'],
+            'end_time' => $validated['end_time'],
+        ]);
+
+        dd("save");
+
+
+
+        return redirect(route('posts.index'));
     }
 
     /**
@@ -94,6 +125,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        $event->delete();
+        return redirect(route('events.index'));
     }
 }

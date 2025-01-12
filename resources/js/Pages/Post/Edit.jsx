@@ -26,7 +26,7 @@ export default function Edit({ postData }) {
     const submit = (e) => {
         e.preventDefault();
         post(route("posts.update", postData.id), {
-            onSuccess: () => console.log(postData.id),
+            onSuccess: () => reset(),
         });
     };
 
