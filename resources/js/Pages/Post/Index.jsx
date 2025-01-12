@@ -3,6 +3,7 @@ import { Head } from "@inertiajs/react";
 import Create from "./Create";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import Edit from "./Edit";
+import Delete from "./Delete";
 
 export default function Index({ posts }) {
     const updatedPosts = posts.map((post) => {
@@ -89,8 +90,9 @@ export default function Index({ posts }) {
                                 </PhotoProvider>
                             </div>
 
-                            <div className="mt-4">
+                            <div className="mt-4 flex items-center gap-2">
                                 <Edit postData={post} />
+                                <Delete postData={post} />
                             </div>
                         </div>
                     ))}
