@@ -4,6 +4,10 @@ import Create from "./Create";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import Edit from "./Edit";
 import Delete from "./Delete";
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+
+dayjs.extend(LocalizedFormat);
 
 export default function Index({ posts }) {
     const updatedPosts = posts.map((post) => {
@@ -45,10 +49,16 @@ export default function Index({ posts }) {
                                     </p>
                                     <div className="flex space-x-1 text-sm text-gray-500">
                                         <time dateTime={post.created_at}>
-                                            {post.created_at}
+                                            {dayjs(post.created_at).format(
+                                                "LL"
+                                            )}
                                         </time>
                                         <span aria-hidden="true">&middot;</span>
-                                        <span>8:00am</span>
+                                        <span>
+                                            {dayjs(post.created_at).format(
+                                                "hh:mm A"
+                                            )}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
