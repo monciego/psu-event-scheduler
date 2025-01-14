@@ -5,6 +5,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Event;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -15,6 +16,7 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        "events" => Event::with("user")->get()
     ]);
 });
 
@@ -26,6 +28,7 @@ Route::get('/dashboard', function () {
 Route::get('/psu/posts', [HomeController::class, 'postIndex']);
 Route::get('/psu/events', [HomeController::class, 'eventIndex']);
 Route::get('/psu/events/{event}', [HomeController::class, 'eventShow'])->name("event.home.show");
+Route::get('/psu/calendar', [HomeController::class, 'calendarIndex']);
 
 Route::middleware('auth')->group(function () {
     Route::resource("posts", PostController::class);

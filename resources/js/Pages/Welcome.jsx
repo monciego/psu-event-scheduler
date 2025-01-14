@@ -1,6 +1,6 @@
 import Navbar from "@/Components/Navbar";
 import HomeLayout from "@/Layouts/HomeLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 
 /* This example requires Tailwind CSS v2.0+ */
 const posts = [
@@ -60,7 +60,7 @@ const posts = [
     },
 ];
 
-export default function Welcome({ auth }) {
+export default function Welcome({ auth, events }) {
     return (
         <HomeLayout auth={auth}>
             <Head title="Home" />
@@ -71,84 +71,144 @@ export default function Welcome({ auth }) {
                 <div className="relative max-w-7xl mx-auto">
                     <div className="text-center">
                         <h2 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
-                            From the blog
+                            CouncilSync
                         </h2>
                         <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit. Ipsa libero labore natus atque, ducimus sed.
+                            Innovating Event Scheduling for the Supreme Student
+                            Council
                         </p>
                     </div>
-                    <div className="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
-                        {posts.map((post) => (
-                            <div
-                                key={post.title}
-                                className="flex flex-col rounded-lg shadow-lg overflow-hidden"
-                            >
-                                <div className="flex-shrink-0">
-                                    <img
-                                        className="h-48 w-full object-cover"
-                                        src={post.imageUrl}
-                                        alt=""
-                                    />
-                                </div>
-                                <div className="flex-1 bg-white p-6 flex flex-col justify-between">
-                                    <div className="flex-1">
-                                        <p className="text-sm font-medium text-indigo-600">
-                                            <a
-                                                href={post.category.href}
-                                                className="hover:underline"
-                                            >
-                                                {post.category.name}
-                                            </a>
-                                        </p>
-                                        <a
-                                            href={post.href}
-                                            className="block mt-2"
-                                        >
-                                            <p className="text-xl font-semibold text-gray-900">
-                                                {post.title}
-                                            </p>
-                                            <p className="mt-3 text-base text-gray-500">
-                                                {post.description}
-                                            </p>
-                                        </a>
+                    <div className=" mx-auto grid gap-5 lg:grid-cols-2 lg:max-w-none mt-4">
+                        {events.map((event) => (
+                            <div>
+                                <Link
+                                    href={route("events.show", event.id)}
+                                    key={event.id}
+                                    className="flex flex-col rounded-lg shadow-lg overflow-hidden"
+                                >
+                                    <div className="flex-shrink-0">
+                                        <img
+                                            className="h-72 w-full object-cover"
+                                            src={`/storage/${event.image}`}
+                                            alt=""
+                                        />
                                     </div>
-                                    <div className="mt-6 flex items-center">
-                                        <div className="flex-shrink-0">
-                                            <a href={post.author.href}>
-                                                <span className="sr-only">
-                                                    {post.author.name}
-                                                </span>
-                                                <img
-                                                    className="h-10 w-10 rounded-full"
-                                                    src={post.author.imageUrl}
-                                                    alt=""
-                                                />
-                                            </a>
-                                        </div>
-                                        <div className="ml-3">
-                                            <p className="text-sm font-medium text-gray-900">
-                                                <a
-                                                    href={post.author.href}
-                                                    className="hover:underline"
-                                                >
-                                                    {post.author.name}
-                                                </a>
-                                            </p>
-                                            <div className="flex space-x-1 text-sm text-gray-500">
-                                                <time dateTime={post.datetime}>
-                                                    {post.date}
-                                                </time>
+                                    <div className="flex-1 bg-white p-6 flex flex-col justify-between">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-4">
+                                                <p className="text-sm font-medium flex gap-2 items-center">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        strokeWidth={1.5}
+                                                        stroke="currentColor"
+                                                        className="size-6"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
+                                                        />
+                                                    </svg>
+                                                    <div>
+                                                        {event.start !==
+                                                        event.end ? (
+                                                            <>
+                                                                <time
+                                                                    dateTime={
+                                                                        event.start
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        event.start
+                                                                    }
+                                                                </time>{" "}
+                                                                to{" "}
+                                                                <time
+                                                                    dateTime={
+                                                                        event.end
+                                                                    }
+                                                                >
+                                                                    {event.end}
+                                                                </time>
+                                                            </>
+                                                        ) : (
+                                                            <time
+                                                                dateTime={
+                                                                    event.start
+                                                                }
+                                                            >
+                                                                {event.start}
+                                                            </time>
+                                                        )}
+                                                    </div>
+                                                </p>
                                                 <span aria-hidden="true">
                                                     &middot;
                                                 </span>
-                                                <span>
-                                                    {post.readingTime} read
-                                                </span>
+                                                <div className="flex gap-2 items-center text-sm font-medium">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        strokeWidth={1.5}
+                                                        stroke="currentColor"
+                                                        className="size-6"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                                        />
+                                                    </svg>
+                                                    <time
+                                                        dateTime={
+                                                            event.start_time
+                                                        }
+                                                    >
+                                                        {event.start_time}
+                                                    </time>{" "}
+                                                    -{" "}
+                                                    <time
+                                                        dateTime={
+                                                            event.end_time
+                                                        }
+                                                    >
+                                                        {event.end_time}
+                                                    </time>
+                                                </div>
+                                            </div>
+                                            <div className="block mt-2">
+                                                <p className="text-xl font-semibold text-gray-900">
+                                                    {event.title}
+                                                </p>
+                                                <p className="mt-3 text-base text-gray-500 line-clamp-3">
+                                                    {event.description}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="mt-6 flex items-center">
+                                            <div className="flex-shrink-0">
+                                                <h3>
+                                                    <span className="sr-only">
+                                                        {event.user.name}
+                                                    </span>
+                                                    <img
+                                                        className="h-7 w-7 rounded-full"
+                                                        src="https://upload.wikimedia.org/wikipedia/en/7/75/Pangasinan_State_University_logo.png"
+                                                        alt=""
+                                                    />
+                                                </h3>
+                                            </div>
+                                            <div className="ml-3">
+                                                <p className="text-base font-medium text-gray-900">
+                                                    {event.user.name}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         ))}
                     </div>

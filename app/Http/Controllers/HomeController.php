@@ -32,4 +32,12 @@ class HomeController extends Controller
         ]);
     }
 
+
+    public function calendarIndex()
+    {
+        return Inertia::render("Homepage/Calendar/Index", [
+            "events" => Event::with("user")->get()
+        ]);
+    }
+
 }

@@ -4,7 +4,7 @@ import { Head, Link } from "@inertiajs/react";
 export default function Index({ auth, events }) {
     return (
         <HomeLayout auth={auth}>
-            <Head title="Posts" />
+            <Head title="Events" />
             <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
                 <div className=" mx-auto grid gap-5 lg:grid-cols-2 lg:max-w-none">
                     {events.map((event) => (
