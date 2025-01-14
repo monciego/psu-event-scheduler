@@ -56,11 +56,7 @@ class EventController extends Controller
             'end_time' => $validated['end_time'],
         ]);
 
-        dd("save");
-
-
-
-        return redirect(route('posts.index'));
+        return redirect(route('events.index'));
     }
 
     /**
@@ -113,11 +109,7 @@ class EventController extends Controller
             'end_time' => $validated['end_time'],
         ]);
 
-        dd("save");
-
-
-
-        return redirect(route('posts.index'));
+        return redirect(route('events.index'));
     }
 
     /**

@@ -51,10 +51,6 @@ class PostController extends Controller
             'images' => json_encode($uploadedImages), // Save as JSON
         ]);
 
-        dd("save");
-
-
-
         return redirect(route('posts.index'));
     }
 
@@ -100,9 +96,6 @@ class PostController extends Controller
             'post' => $validated['post'],
             'images' => json_encode($uploadedImages), // Save as JSON
         ]);
-
-        dd("save");
-
 
 
         return redirect(route('posts.index'));
