@@ -1,6 +1,9 @@
-import Navbar from "@/Components/Navbar";
 import HomeLayout from "@/Layouts/HomeLayout";
 import { Head, Link } from "@inertiajs/react";
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+
+dayjs.extend(LocalizedFormat);
 
 /* This example requires Tailwind CSS v2.0+ */
 const posts = [
@@ -82,7 +85,7 @@ export default function Welcome({ auth, events }) {
                         {events.map((event) => (
                             <div>
                                 <Link
-                                    href={route("events.show", event.id)}
+                                    href={route("event.home.show", event.id)}
                                     key={event.id}
                                     className="flex flex-col rounded-lg shadow-lg overflow-hidden"
                                 >
@@ -120,9 +123,11 @@ export default function Welcome({ auth, events }) {
                                                                         event.start
                                                                     }
                                                                 >
-                                                                    {
+                                                                    {dayjs(
                                                                         event.start
-                                                                    }
+                                                                    ).format(
+                                                                        "LL"
+                                                                    )}
                                                                 </time>{" "}
                                                                 to{" "}
                                                                 <time
@@ -130,7 +135,11 @@ export default function Welcome({ auth, events }) {
                                                                         event.end
                                                                     }
                                                                 >
-                                                                    {event.end}
+                                                                    {dayjs(
+                                                                        event.end
+                                                                    ).format(
+                                                                        "LL"
+                                                                    )}
                                                                 </time>
                                                             </>
                                                         ) : (
@@ -139,7 +148,9 @@ export default function Welcome({ auth, events }) {
                                                                     event.start
                                                                 }
                                                             >
-                                                                {event.start}
+                                                                {dayjs(
+                                                                    event.start
+                                                                ).format("LL")}
                                                             </time>
                                                         )}
                                                     </div>
