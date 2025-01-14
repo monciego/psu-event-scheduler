@@ -3,6 +3,10 @@ import { Head, Link } from "@inertiajs/react";
 import Create from "./Create";
 import Edit from "./Edit";
 import Delete from "./Delete";
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+
+dayjs.extend(LocalizedFormat);
 
 export default function Index({ events }) {
     return (
@@ -57,7 +61,9 @@ export default function Index({ events }) {
                                                                     event.start
                                                                 }
                                                             >
-                                                                {event.start}
+                                                                {dayjs(
+                                                                    event.start
+                                                                ).format("LL")}
                                                             </time>{" "}
                                                             to{" "}
                                                             <time
@@ -65,7 +71,9 @@ export default function Index({ events }) {
                                                                     event.end
                                                                 }
                                                             >
-                                                                {event.end}
+                                                                {dayjs(
+                                                                    event.end
+                                                                ).format("LL")}
                                                             </time>
                                                         </>
                                                     ) : (
@@ -74,7 +82,9 @@ export default function Index({ events }) {
                                                                 event.start
                                                             }
                                                         >
-                                                            {event.start}
+                                                            {dayjs(
+                                                                event.start
+                                                            ).format("LL")}
                                                         </time>
                                                     )}
                                                 </div>

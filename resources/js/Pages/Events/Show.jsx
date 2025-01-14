@@ -1,4 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+
+dayjs.extend(LocalizedFormat);
 
 export default function Show({ event }) {
     return (
@@ -71,20 +75,26 @@ export default function Show({ event }) {
                                                                 event.start
                                                             }
                                                         >
-                                                            {event.start}
+                                                            {dayjs(
+                                                                event.start
+                                                            ).format("LL")}
                                                         </time>{" "}
                                                         to{" "}
                                                         <time
                                                             dateTime={event.end}
                                                         >
-                                                            {event.end}
+                                                            {dayjs(
+                                                                event.end
+                                                            ).format("LL")}
                                                         </time>
                                                     </>
                                                 ) : (
                                                     <time
                                                         dateTime={event.start}
                                                     >
-                                                        {event.start}
+                                                        {dayjs(
+                                                            event.start
+                                                        ).format("LL")}
                                                     </time>
                                                 )}
                                             </div>
