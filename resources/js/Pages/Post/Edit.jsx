@@ -77,6 +77,8 @@ export default function Edit({ postData }) {
                                 accept="image/*"
                             />
                         </div>
+
+                        <InputError message={errors.images} className="mt-2" />
                     </div>
 
                     <div className="mt-6 flex  gap-4 justify-end">

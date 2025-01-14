@@ -58,6 +58,10 @@ export default function Create({ auth }) {
                                 onChange={handleFileChange}
                                 accept="image/*"
                             />
+                            <InputError
+                                message={errors.image}
+                                className="mt-2"
+                            />
                         </div>
 
                         <div className="mt-4">
