@@ -32,7 +32,8 @@ export default function Edit({ eventData }) {
     const submit = (e) => {
         e.preventDefault();
         post(route("events.update", eventData.id), {
-            onSuccess: () => reset(),
+            onSuccess: () => setConfirmingOpenModal(false),
+            onFinish: () => reset(),
         });
     };
 

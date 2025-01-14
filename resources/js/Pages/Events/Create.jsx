@@ -30,7 +30,10 @@ export default function Create({ auth }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("events.store"), { onSuccess: () => reset() });
+        post(route("events.store"), {
+            onSuccess: () => setConfirmingOpenModal(false),
+            onFinish: () => reset(),
+        });
     };
 
     const closeModal = () => {
