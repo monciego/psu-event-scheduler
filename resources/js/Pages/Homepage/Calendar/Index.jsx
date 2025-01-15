@@ -86,7 +86,7 @@ export default function Index({ auth, events }) {
                                 className="flex items-center gap-2"
                             >
                                 <div className="bg-slate-600 h-6 w-6 rounded-full"></div>
-                                <span>Admin</span>
+                                <span>SSC</span>
                             </button>
                             <button
                                 onClick={() => filterEvents(2)}
