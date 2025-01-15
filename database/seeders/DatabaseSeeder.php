@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Superadministrator',
+            'name' => 'Supreme Student Council',
             'email' => 'superadministrator@psu.com',
         ]);
 
