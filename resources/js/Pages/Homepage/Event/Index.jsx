@@ -2,16 +2,51 @@ import HomeLayout from "@/Layouts/HomeLayout";
 import { Head, Link } from "@inertiajs/react";
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import { useState } from "react";
 
 dayjs.extend(LocalizedFormat);
 
 export default function Index({ auth, events }) {
+    const [filter, setFilter] = useState(""); // Initial filter is empty
+
+    const filteredEvent = events.filter((event) => {
+        if (!filter) return true; // Show all posts if no filter is selected
+        return event.user.id === Number(filter); // Convert filter to a number
+    });
     return (
         <HomeLayout auth={auth}>
             <Head title="Events" />
             <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+                <div className="mb-4">
+                    <label
+                        htmlFor="filter"
+                        className="mr-2 text-gray-700 font-medium"
+                    >
+                        Filter:
+                    </label>
+                    <select
+                        id="filter"
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="border rounded px-3 py-2"
+                    >
+                        <option value="">All Users</option>
+                        {[
+                            ...new Map(
+                                events.map((event) => [
+                                    event.user.id,
+                                    event.user.name,
+                                ]) // Create a unique map of user IDs and names
+                            ).entries(),
+                        ].map(([userId, userName], index) => (
+                            <option key={index} value={userId}>
+                                {userName}
+                            </option>
+                        ))}
+                    </select>
+                </div>
                 <div className=" mx-auto grid gap-5 lg:grid-cols-2 lg:max-w-none">
-                    {events.map((event) => (
+                    {filteredEvent.map((event) => (
                         <div>
                             <Link
                                 href={route("event.home.show", event.id)}
