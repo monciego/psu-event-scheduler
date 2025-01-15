@@ -33,7 +33,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'post' => 'required|string|max:255',
+            'post' => 'required|string',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each file
         ]);
 
@@ -76,7 +76,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $validated = $request->validate([
-            'post' => 'required|string|max:255',
+            'post' => 'required|string',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each file
         ]);
 

@@ -33,7 +33,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string',
             'description' => 'required|string',
             'start' => 'required|date|after_or_equal:today',
             'end' => 'required|date|after_or_equal:date',
@@ -83,7 +83,7 @@ class EventController extends Controller
     public function update(Request $request, Event $event)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string',
             'description' => 'required|string',
             'start' => 'required|date|after_or_equal:today',
             'end' => 'required|date|after_or_equal:date',
