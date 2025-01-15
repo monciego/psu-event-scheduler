@@ -10,6 +10,7 @@ import LocalizedFormat from "dayjs/plugin/localizedFormat";
 dayjs.extend(LocalizedFormat);
 
 export default function Index({ posts }) {
+    console.log(posts);
     const updatedPosts = posts.map((post) => {
         return {
             ...post,

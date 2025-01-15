@@ -4,22 +4,61 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import { useState } from "react";
 
 dayjs.extend(LocalizedFormat);
 
 export default function Index({ auth, posts }) {
-    const updatedPosts = posts.map((post) => {
-        return {
+    const [filter, setFilter] = useState(""); // Initial filter is empty
+
+    const [updatedPosts] = useState(() =>
+        posts.map((post) => ({
             ...post,
-            images: JSON.parse(post.images), // Convert images string to array
-        };
+            images: JSON.parse(post.images), // Parse images from string to array
+        }))
+    );
+
+    const filteredPosts = updatedPosts.filter((post) => {
+        if (!filter) return true; // Show all posts if no filter is selected
+        console.log(post.user);
+        return post.user.id === Number(filter); // Convert filter to a number
     });
+
     return (
         <HomeLayout auth={auth}>
             <Head title="Posts" />
             <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+                <div className="mb-4">
+                    <label
+                        htmlFor="filter"
+                        className="mr-2 text-gray-700 font-medium"
+                    >
+                        Filter:
+                    </label>
+                    <select
+                        id="filter"
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="border rounded px-3 py-2"
+                    >
+                        <option value="">All Users</option>
+                        {[
+                            ...new Map(
+                                updatedPosts.map((post) => [
+                                    post.user.id,
+                                    post.user.name,
+                                ]) // Create a unique map of user IDs and names
+                            ).entries(),
+                        ].map(([userId, userName], index) => (
+                            <option key={index} value={userId}>
+                                {userName}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 <div className="max-w-lg mx-auto grid gap-5 lg:grid-cols-2 lg:max-w-none">
-                    {updatedPosts.map((post) => (
+                    {filteredPosts.map((post) => (
                         <div
                             key={post.id}
                             className="flex flex-col rounded-lg shadow-lg overflow-hidden p-6 bg-white"
