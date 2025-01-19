@@ -6,7 +6,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Event;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -31,6 +33,18 @@ Route::get('/psu/events/{event}', [HomeController::class, 'eventShow'])->name("e
 Route::get('/psu/calendar', [HomeController::class, 'calendarIndex']);
 
 Route::middleware('auth')->group(function () {
+
+
+Route::get('/generate-event-report', function () {
+    $data = Event::with('user')
+        ->where('user_id', Auth::id())
+        ->get();
+
+    $pdf = Pdf::loadView('pdf.template', ['data' => $data]);
+
+    return $pdf->download('event-report.pdf');
+});
+
     Route::resource("posts", PostController::class);
     Route::resource("events",EventController::class);
     Route::resource("calendar",CalendarController::class);

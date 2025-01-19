@@ -5,10 +5,14 @@ import Edit from "./Edit";
 import Delete from "./Delete";
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 dayjs.extend(LocalizedFormat);
 
 export default function Index({ events }) {
+    const handleDownload = () => {
+        window.location.href = "/generate-event-report";
+    };
     return (
         <AuthenticatedLayout>
             <Head title="Events" />
@@ -16,7 +20,16 @@ export default function Index({ events }) {
             <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
                 <header className="flex items-center justify-between mb-10">
                     <h3 className="font-medium text-2xl">Events</h3>
-                    <Create />
+                    <div className="flex items-center gap-2">
+                        <Create />
+
+                        <PrimaryButton
+                            className="bg-indigo-600 hover:bg-indigo-700"
+                            onClick={handleDownload}
+                        >
+                            Download Report
+                        </PrimaryButton>
+                    </div>
                 </header>
 
                 <div className=" mx-auto grid gap-5 lg:grid-cols-2 lg:max-w-none">
