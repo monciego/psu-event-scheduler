@@ -116,11 +116,15 @@ export default function Show({ event }) {
                                                 />
                                             </svg>
                                             <time dateTime={event.start_time}>
-                                                {event.start_time}
+                                                {dayjs(
+                                                    `2000-01-01 ${event.start_time}`
+                                                ).format("h:mm A")}
                                             </time>{" "}
                                             -{" "}
                                             <time dateTime={event.end_time}>
-                                                {event.end_time}
+                                                {dayjs(
+                                                    `2000-01-01 ${event.end_time}`
+                                                ).format("h:mm A")}
                                             </time>
                                         </div>
                                     </div>

@@ -49,7 +49,7 @@ export default function Index({ events }) {
                                 </div>
                                 <div className="flex-1 bg-white p-6 flex flex-col justify-between">
                                     <div className="flex-1">
-                                        <div className="flex items-center gap-4">
+                                        <div className="flex items-center gap-1">
                                             <p className="text-sm font-medium flex gap-2 items-center">
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -123,11 +123,15 @@ export default function Index({ events }) {
                                                 <time
                                                     dateTime={event.start_time}
                                                 >
-                                                    {event.start_time}
+                                                    {dayjs(
+                                                        `2000-01-01 ${event.start_time}`
+                                                    ).format("h:mm A")}
                                                 </time>{" "}
-                                                -{" "}
+                                                -
                                                 <time dateTime={event.end_time}>
-                                                    {event.end_time}
+                                                    {dayjs(
+                                                        `2000-01-01 ${event.end_time}`
+                                                    ).format("h:mm A")}
                                                 </time>
                                             </div>
                                         </div>
