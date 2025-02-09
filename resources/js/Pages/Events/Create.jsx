@@ -16,6 +16,7 @@ export default function Create({ auth }) {
 
     const { data, setData, post, processing, reset, errors } = useForm({
         title: "",
+        venue: "",
         description: "",
         start: "",
         end: "",
@@ -46,7 +47,10 @@ export default function Create({ auth }) {
             </PrimaryButton>
 
             <Modal show={confirmingOpenModal} onClose={closeModal}>
-                <form onSubmit={submit} className="p-6">
+                <form
+                    onSubmit={submit}
+                    className="p-6  max-h-[40rem] overflow-y-scroll"
+                >
                     <h2 className="text-lg font-medium text-gray-900">
                         Create Event
                     </h2>
@@ -84,6 +88,27 @@ export default function Create({ auth }) {
 
                             <InputError
                                 message={errors.title}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div className="mt-4">
+                            <InputLabel htmlFor="venue" value="Event venue" />
+
+                            <TextInput
+                                id="venue"
+                                type="text"
+                                name="venue"
+                                value={data.venue}
+                                className="mt-1 block w-full"
+                                autoComplete="venue"
+                                onChange={(e) =>
+                                    setData("venue", e.target.value)
+                                }
+                            />
+
+                            <InputError
+                                message={errors.venue}
                                 className="mt-2"
                             />
                         </div>

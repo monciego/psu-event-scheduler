@@ -17,6 +17,7 @@ export default function Edit({ eventData }) {
     const { data, setData, post, processing, reset, errors } = useForm({
         title: eventData.title || "",
         description: eventData.description || "",
+        venue: eventData.venue || "",
         start: eventData.start || "",
         end: eventData.end || "",
         start_time: eventData.start_time || "",
@@ -50,7 +51,10 @@ export default function Edit({ eventData }) {
             </PrimaryButton>
 
             <Modal show={confirmingOpenModal} onClose={closeModal}>
-                <form onSubmit={submit} className="p-6">
+                <form
+                    onSubmit={submit}
+                    className="p-6  max-h-[40rem] overflow-y-scroll"
+                >
                     <h2 className="text-lg font-medium text-gray-900">
                         Edit Event
                     </h2>
@@ -89,6 +93,27 @@ export default function Edit({ eventData }) {
 
                             <InputError
                                 message={errors.title}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div className="mt-4">
+                            <InputLabel htmlFor="venue" value="Event venue" />
+
+                            <TextInput
+                                id="venue"
+                                type="text"
+                                name="venue"
+                                value={data.venue}
+                                className="mt-1 block w-full"
+                                autoComplete="venue"
+                                onChange={(e) =>
+                                    setData("venue", e.target.value)
+                                }
+                            />
+
+                            <InputError
+                                message={errors.venue}
                                 className="mt-2"
                             />
                         </div>

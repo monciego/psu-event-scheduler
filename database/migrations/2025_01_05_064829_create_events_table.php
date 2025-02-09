@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("start");
             $table->string("end");
             $table->string("start_time");
+            $table->string("venue");
             $table->string("end_time");
             $table->timestamps();
         });

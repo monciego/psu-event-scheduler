@@ -13,6 +13,7 @@ class Event extends Model
         "image",
         "start",
         "end",
+        "venue",
         "start_time",
         "end_time",
     ];

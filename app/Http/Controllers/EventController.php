@@ -34,6 +34,7 @@ class EventController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string',
+            'venue' => 'required|string',
             'description' => 'required|string',
             'start' => 'required|date|after_or_equal:today',
             'end' => 'required|date|after_or_equal:date',
@@ -48,6 +49,7 @@ class EventController extends Controller
 
        $request->user()->events()->create([
             'title' => $validated['title'],
+            'venue' => $validated['venue'],
             'image' => $uploadedImage,
             'description' => $validated['description'],
             'start' => $validated['start'],
@@ -84,6 +86,7 @@ class EventController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string',
+            'venue' => 'required|string',
             'description' => 'required|string',
             'start' => 'required|date|after_or_equal:today',
             'end' => 'required|date|after_or_equal:date',
@@ -101,6 +104,7 @@ class EventController extends Controller
 
         $event->update([
             'title' => $validated['title'],
+            'venue' => $validated['venue'],
             'image' => $uploadedImage,
             'description' => $validated['description'],
             'start' => $validated['start'],
