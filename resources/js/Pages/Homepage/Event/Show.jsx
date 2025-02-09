@@ -61,6 +61,25 @@ export default function Index({ auth, event }) {
                                         <p className="text-sm font-medium flex items-center gap-1">
                                             🏢 Venue: <span>{event.venue}</span>
                                         </p>
+
+                                        <span aria-hidden="true">&middot;</span>
+                                        <p className="text-sm font-medium flex items-center gap-1">
+                                            🧑‍🤝‍🧑 Attendees:{" "}
+                                            {event.attendees
+                                                .sort((a, b) => {
+                                                    const order = [
+                                                        "1st Year",
+                                                        "2nd Year",
+                                                        "3rd Year",
+                                                        "4th Year",
+                                                    ];
+                                                    return (
+                                                        order.indexOf(a) -
+                                                        order.indexOf(b)
+                                                    );
+                                                })
+                                                .join(", ")}
+                                        </p>
                                     </div>
                                 </div>
 

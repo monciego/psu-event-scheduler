@@ -5,7 +5,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Edit({ eventData }) {
     const [confirmingOpenModal, setConfirmingOpenModal] = useState(false);
@@ -13,6 +13,8 @@ export default function Edit({ eventData }) {
     const confirmOpenModal = () => {
         setConfirmingOpenModal(true);
     };
+
+    console.log(eventData.attendees.includes("1st Year"));
 
     const { data, setData, post, processing, reset, errors } = useForm({
         title: eventData.title || "",
@@ -23,11 +25,32 @@ export default function Edit({ eventData }) {
         start_time: eventData.start_time || "",
         end_time: eventData.end_time || "",
         image: "",
+        attendees: Array.isArray(eventData.attendees)
+            ? [...eventData.attendees]
+            : [],
         _method: "put",
     });
 
+    // Ensure data.attendees updates when eventData.attendees changes
+    useEffect(() => {
+        setData(
+            "attendees",
+            Array.isArray(eventData.attendees) ? [...eventData.attendees] : []
+        );
+    }, [eventData.attendees]);
+
     const handleFileChange = (e) => {
         setData("image", e.target.files[0]);
+    };
+
+    const handleCheckboxChange = (e) => {
+        const { value, checked } = e.target;
+        setData(
+            "attendees",
+            checked
+                ? [...data.attendees, value] // Add if checked
+                : data.attendees.filter((attendee) => attendee !== value) // Remove if unchecked
+        );
     };
 
     const submit = (e) => {
@@ -238,6 +261,38 @@ export default function Edit({ eventData }) {
                                     className="mt-2"
                                 />
                             </div>
+                        </div>
+
+                        <div className="mt-4">
+                            <InputLabel value="Attendees" />
+                            <div className="grid grid-cols-2 gap-2">
+                                {[
+                                    "1st Year",
+                                    "2nd Year",
+                                    "3rd Year",
+                                    "4th Year",
+                                ].map((year, index) => (
+                                    <label
+                                        key={index}
+                                        className="flex items-center gap-2"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value={year}
+                                            checked={data.attendees.includes(
+                                                year
+                                            )}
+                                            onChange={handleCheckboxChange}
+                                            className="form-checkbox text-indigo-600"
+                                        />
+                                        {year}
+                                    </label>
+                                ))}
+                            </div>
+                            <InputError
+                                message={errors.attendees}
+                                className="mt-2"
+                            />
                         </div>
                     </div>
 

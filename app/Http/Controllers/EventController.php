@@ -14,9 +14,27 @@ class EventController extends Controller
      */
     public function index()
     {
-        return Inertia::render("Events/Index", [
+return Inertia::render("Events/Index", [
+    "events" => Event::with("user")
+        ->where("user_id", Auth::id())
+        ->get()
+        ->map(function ($event) {
+            $event->attendees = is_array($event->attendees) ? $event->attendees : json_decode($event->attendees, true);
+            return $event;
+        }),
+]);
+
+/*         dd(Event::with("user")
+            ->where("user_id", Auth::id())
+            ->get()
+            ->map(function ($event) {
+                $event->attendees = json_decode($event->attendees, true) ?? []; // Ensure it's an array
+                return $event;
+            }),
+        );
+         return Inertia::render("Events/Index", [
             "events" => Event::with("user")->where("user_id", Auth::id())->get()
-        ]);
+        ]); */
     }
 
     /**
@@ -37,17 +55,22 @@ class EventController extends Controller
             'venue' => 'required|string',
             'description' => 'required|string',
             'start' => 'required|date|after_or_equal:today',
-            'end' => 'required|date|after_or_equal:date',
+            'end' => 'required|date|after_or_equal:start',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'attendees' => 'nullable|array',
+            'attendees.*' => 'in:1st Year,2nd Year,3rd Year,4th Year', // Ensure valid values
         ]);
 
+        // Handle file upload
+        $uploadedImage = null;
         if ($request->hasFile('image')) {
             $uploadedImage = $request->file('image')->store('uploads/images', 'public');
         }
 
-       $request->user()->events()->create([
+        // Store event with attendees
+        $event = $request->user()->events()->create([
             'title' => $validated['title'],
             'venue' => $validated['venue'],
             'image' => $uploadedImage,
@@ -56,16 +79,20 @@ class EventController extends Controller
             'end' => $validated['end'],
             'start_time' => $validated['start_time'],
             'end_time' => $validated['end_time'],
+            'attendees' => json_encode($validated['attendees'] ?? []), // Store as JSON
         ]);
 
-        return redirect(route('events.index'));
+        return redirect(route('events.index'))->with('success', 'Event created successfully!');
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(Event $event)
     {
+
+    $event->attendees = json_decode($event->attendees, true) ?? [];
         return Inertia::render("Events/Show", [
             "event" => $event
         ]);
@@ -93,6 +120,8 @@ class EventController extends Controller
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'attendees' => 'nullable|array',
+            'attendees.*' => 'in:1st Year,2nd Year,3rd Year,4th Year', // Ensure valid values
         ]);
 
       $uploadedImage = $event->image ;
@@ -111,6 +140,7 @@ class EventController extends Controller
             'end' => $validated['end'],
             'start_time' => $validated['start_time'],
             'end_time' => $validated['end_time'],
+            'attendees' => json_encode($validated['attendees'] ?? []),
         ]);
 
         return redirect(route('events.index'));

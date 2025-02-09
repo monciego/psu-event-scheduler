@@ -20,13 +20,19 @@ class HomeController extends Controller
     public function eventIndex()
     {
         return Inertia::render("Homepage/Event/Index", [
-            "events" => Event::with("user")->latest()->get()
+    "events" => Event::with("user")
+        ->get()
+        ->map(function ($event) {
+            $event->attendees = is_array($event->attendees) ? $event->attendees : json_decode($event->attendees, true);
+            return $event;
+        }),
         ]);
     }
 
 
     public function eventShow(Event $event)
     {
+    $event->attendees = json_decode($event->attendees, true) ?? [];
         return Inertia::render("Homepage/Event/Show", [
             "event" => $event
         ]);

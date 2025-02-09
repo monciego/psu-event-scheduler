@@ -16,8 +16,8 @@ class Event extends Model
         "venue",
         "start_time",
         "end_time",
+        "attendees"
     ];
-
 
     public function user():BelongsTo
     {

@@ -66,7 +66,7 @@ export default function Index({ events }) {
                                     </div>
                                     <div className="flex-1 bg-white p-6 flex flex-col justify-between">
                                         <div className="flex-1">
-                                            <div className="flex items-center gap-1 flex-wrap">
+                                            <div className="space-y-2">
                                                 <p className="text-sm font-medium flex gap-2 items-center">
                                                     📅{" "}
                                                     {event.start !==
@@ -104,9 +104,6 @@ export default function Index({ events }) {
                                                         </time>
                                                     )}
                                                 </p>
-                                                <span aria-hidden="true">
-                                                    &middot;
-                                                </span>
                                                 <p className="text-sm font-medium flex items-center gap-1">
                                                     ⏰{" "}
                                                     {dayjs(
@@ -117,14 +114,31 @@ export default function Index({ events }) {
                                                         `2000-01-01 ${event.end_time}`
                                                     ).format("h:mm A")}
                                                 </p>
-
-                                                <span aria-hidden="true">
-                                                    &middot;
-                                                </span>
                                                 <p className="text-sm font-medium flex items-center gap-1">
                                                     🏢 Venue:{" "}
                                                     <span>{event.venue}</span>
                                                 </p>
+                                                <p className="text-sm font-medium flex items-center gap-1">
+                                                    🧑‍🤝‍🧑 Attendees:{" "}
+                                                    {event.attendees
+                                                        .sort((a, b) => {
+                                                            const order = [
+                                                                "1st Year",
+                                                                "2nd Year",
+                                                                "3rd Year",
+                                                                "4th Year",
+                                                            ];
+                                                            return (
+                                                                order.indexOf(
+                                                                    a
+                                                                ) -
+                                                                order.indexOf(b)
+                                                            );
+                                                        })
+                                                        .join(", ")}
+                                                </p>
+
+                                                {/*                                                 {event.attendees} */}
                                             </div>
                                             <div className="block mt-2">
                                                 <p className="text-xl font-semibold text-gray-900">

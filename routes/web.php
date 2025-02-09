@@ -18,7 +18,12 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        "events" => Event::with("user")->get()
+    "events" => Event::with("user")
+        ->get()
+        ->map(function ($event) {
+            $event->attendees = is_array($event->attendees) ? $event->attendees : json_decode($event->attendees, true);
+            return $event;
+        }),
     ]);
 });
 

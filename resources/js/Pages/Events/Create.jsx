@@ -23,10 +23,21 @@ export default function Create({ auth }) {
         start_time: "",
         end_time: "",
         image: "",
+        attendees: [], // New state for checkboxes
     });
 
     const handleFileChange = (e) => {
         setData("image", e.target.files[0]);
+    };
+
+    const handleCheckboxChange = (e) => {
+        const { value, checked } = e.target;
+        setData(
+            "attendees",
+            checked
+                ? [...data.attendees, value] // Add if checked
+                : data.attendees.filter((attendee) => attendee !== value) // Remove if unchecked
+        );
     };
 
     const submit = (e) => {
@@ -40,6 +51,7 @@ export default function Create({ auth }) {
     const closeModal = () => {
         setConfirmingOpenModal(false);
     };
+
     return (
         <>
             <PrimaryButton onClick={confirmOpenModal}>
@@ -49,7 +61,7 @@ export default function Create({ auth }) {
             <Modal show={confirmingOpenModal} onClose={closeModal}>
                 <form
                     onSubmit={submit}
-                    className="p-6  max-h-[40rem] overflow-y-scroll"
+                    className="p-6 max-h-[40rem] overflow-y-scroll"
                 >
                     <h2 className="text-lg font-medium text-gray-900">
                         Create Event
@@ -73,19 +85,16 @@ export default function Create({ auth }) {
 
                         <div className="mt-4">
                             <InputLabel htmlFor="title" value="Event name" />
-
                             <TextInput
                                 id="title"
                                 type="text"
                                 name="title"
                                 value={data.title}
                                 className="mt-1 block w-full"
-                                autoComplete="event-name"
                                 onChange={(e) =>
                                     setData("title", e.target.value)
                                 }
                             />
-
                             <InputError
                                 message={errors.title}
                                 className="mt-2"
@@ -94,19 +103,16 @@ export default function Create({ auth }) {
 
                         <div className="mt-4">
                             <InputLabel htmlFor="venue" value="Event venue" />
-
                             <TextInput
                                 id="venue"
                                 type="text"
                                 name="venue"
                                 value={data.venue}
                                 className="mt-1 block w-full"
-                                autoComplete="venue"
                                 onChange={(e) =>
                                     setData("venue", e.target.value)
                                 }
                             />
-
                             <InputError
                                 message={errors.venue}
                                 className="mt-2"
@@ -122,7 +128,7 @@ export default function Create({ auth }) {
                                 id="description"
                                 value={data.description}
                                 placeholder="Description"
-                                className="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                                 onChange={(e) =>
                                     setData("description", e.target.value)
                                 }
@@ -135,53 +141,45 @@ export default function Create({ auth }) {
 
                         <div className="flex items-center gap-4">
                             <div className="w-full">
-                                <div className="mt-4">
-                                    <InputLabel
-                                        htmlFor="start"
-                                        value="Event Start Date"
-                                    />
+                                <InputLabel
+                                    htmlFor="start"
+                                    value="Event Start Date"
+                                />
+                                <TextInput
+                                    id="start"
+                                    type="date"
+                                    name="start"
+                                    value={data.start}
+                                    className="mt-1 block w-full"
+                                    onChange={(e) =>
+                                        setData("start", e.target.value)
+                                    }
+                                />
+                                <InputError
+                                    message={errors.start}
+                                    className="mt-2"
+                                />
+                            </div>
 
-                                    <TextInput
-                                        id="start"
-                                        type="date"
-                                        name="start"
-                                        value={data.start}
-                                        className="mt-1 block w-full"
-                                        autoComplete="event-start-date"
-                                        onChange={(e) =>
-                                            setData("start", e.target.value)
-                                        }
-                                    />
-
-                                    <InputError
-                                        message={errors.start}
-                                        className="mt-2"
-                                    />
-                                </div>
-
-                                <div className="mt-4">
-                                    <InputLabel
-                                        htmlFor="end"
-                                        value="Event End Date"
-                                    />
-
-                                    <TextInput
-                                        id="end"
-                                        type="date"
-                                        name="end"
-                                        value={data.end}
-                                        className="mt-1 block w-full"
-                                        autoComplete="event-end-date"
-                                        onChange={(e) =>
-                                            setData("end", e.target.value)
-                                        }
-                                    />
-
-                                    <InputError
-                                        message={errors.end}
-                                        className="mt-2"
-                                    />
-                                </div>
+                            <div className="w-full">
+                                <InputLabel
+                                    htmlFor="end"
+                                    value="Event End Date"
+                                />
+                                <TextInput
+                                    id="end"
+                                    type="date"
+                                    name="end"
+                                    value={data.end}
+                                    className="mt-1 block w-full"
+                                    onChange={(e) =>
+                                        setData("end", e.target.value)
+                                    }
+                                />
+                                <InputError
+                                    message={errors.end}
+                                    className="mt-2"
+                                />
                             </div>
                         </div>
 
@@ -189,21 +187,18 @@ export default function Create({ auth }) {
                             <div className="w-full mt-4">
                                 <InputLabel
                                     htmlFor="start_time"
-                                    value="Event Start time"
+                                    value="Event Start Time"
                                 />
-
                                 <TextInput
                                     id="start_time"
                                     type="time"
                                     name="start_time"
                                     value={data.start_time}
                                     className="mt-1 block w-full"
-                                    autoComplete="event-time"
                                     onChange={(e) =>
                                         setData("start_time", e.target.value)
                                     }
                                 />
-
                                 <InputError
                                     message={errors.start_time}
                                     className="mt-2"
@@ -213,34 +208,63 @@ export default function Create({ auth }) {
                             <div className="w-full mt-4">
                                 <InputLabel
                                     htmlFor="end_time"
-                                    value="Event End time"
+                                    value="Event End Time"
                                 />
-
                                 <TextInput
                                     id="end_time"
                                     type="time"
                                     name="end_time"
                                     value={data.end_time}
                                     className="mt-1 block w-full"
-                                    autoComplete="event-time"
                                     onChange={(e) =>
                                         setData("end_time", e.target.value)
                                     }
                                 />
-
                                 <InputError
                                     message={errors.end_time}
                                     className="mt-2"
                                 />
                             </div>
                         </div>
+
+                        {/* Attendee Selection */}
+                        <div className="mt-4">
+                            <InputLabel value="Attendees" />
+                            <div className="grid grid-cols-2 gap-2">
+                                {[
+                                    "1st Year",
+                                    "2nd Year",
+                                    "3rd Year",
+                                    "4th Year",
+                                ].map((year, index) => (
+                                    <label
+                                        key={index}
+                                        className="flex items-center gap-2"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value={year}
+                                            checked={data.attendees.includes(
+                                                year
+                                            )}
+                                            onChange={handleCheckboxChange}
+                                            className="form-checkbox text-indigo-600"
+                                        />
+                                        {year}
+                                    </label>
+                                ))}
+                            </div>
+                            <InputError
+                                message={errors.attendees}
+                                className="mt-2"
+                            />
+                        </div>
                     </div>
 
-                    <div className="mt-6 flex  gap-4 justify-end">
+                    <div className="mt-6 flex gap-4 justify-end">
                         <SecondaryButton onClick={closeModal}>
                             Cancel
                         </SecondaryButton>
-
                         <PrimaryButton disabled={processing}>
                             Submit
                         </PrimaryButton>
