@@ -7,6 +7,16 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
+const venueOptions = [
+    "Covered Court",
+    "Atrium",
+    "AVR",
+    "PBB Ground",
+    "BCRD Ground",
+    "Student Center",
+    "Other",
+];
+
 export default function Edit({ eventData }) {
     const [confirmingOpenModal, setConfirmingOpenModal] = useState(false);
 
@@ -30,6 +40,25 @@ export default function Edit({ eventData }) {
             : [],
         _method: "put",
     });
+
+    const [isOther, setIsOther] = useState(
+        event.venue && !venueOptions.includes(event.venue)
+    );
+
+    useEffect(() => {
+        setIsOther(event.venue && !venueOptions.includes(event.venue));
+    }, [event.venue]);
+
+    const handleVenueChange = (e) => {
+        const value = e.target.value;
+        if (value === "Other") {
+            setIsOther(true);
+            setData("venue", "");
+        } else {
+            setIsOther(false);
+            setData("venue", value);
+        }
+    };
 
     // Ensure data.attendees updates when eventData.attendees changes
     useEffect(() => {
@@ -121,24 +150,67 @@ export default function Edit({ eventData }) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="venue" value="Event venue" />
-
+                            <InputLabel htmlFor="title" value="Event Name" />
                             <TextInput
-                                id="venue"
+                                id="title"
                                 type="text"
-                                name="venue"
-                                value={data.venue}
+                                name="title"
+                                value={data.title}
                                 className="mt-1 block w-full"
-                                autoComplete="venue"
                                 onChange={(e) =>
-                                    setData("venue", e.target.value)
+                                    setData("title", e.target.value)
                                 }
                             />
+                            <InputError
+                                message={errors.title}
+                                className="mt-2"
+                            />
+                        </div>
 
+                        <div className="mt-4">
+                            <InputLabel htmlFor="venue" value="Event Venue" />
+                            <select
+                                id="venue"
+                                name="venue"
+                                value={isOther ? "Other" : data.venue}
+                                onChange={handleVenueChange}
+                                className="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                            >
+                                <option value="">Select Venue</option>
+                                {venueOptions.map((venue, index) => (
+                                    <option key={index} value={venue}>
+                                        {venue}
+                                    </option>
+                                ))}
+                            </select>
                             <InputError
                                 message={errors.venue}
                                 className="mt-2"
                             />
+
+                            {isOther && (
+                                <div className="mt-4">
+                                    <InputLabel
+                                        htmlFor="other_venue"
+                                        value="Other Venue"
+                                    />
+                                    <TextInput
+                                        id="other_venue"
+                                        type="text"
+                                        name="other_venue"
+                                        value={data.venue}
+                                        className="mt-1 block w-full"
+                                        onChange={(e) =>
+                                            setData("venue", e.target.value)
+                                        }
+                                        placeholder="Enter venue name"
+                                    />
+                                    <InputError
+                                        message={errors.venue}
+                                        className="mt-2"
+                                    />
+                                </div>
+                            )}
                         </div>
 
                         <div className="mt-4">

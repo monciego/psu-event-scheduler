@@ -7,6 +7,16 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import { useState } from "react";
 
+const venueOptions = [
+    "Covered Court",
+    "Atrium",
+    "AVR",
+    "PBB Ground",
+    "BCRD Ground",
+    "Student Center",
+    "Other",
+];
+
 export default function Create({ auth }) {
     const [confirmingOpenModal, setConfirmingOpenModal] = useState(false);
 
@@ -25,6 +35,19 @@ export default function Create({ auth }) {
         image: "",
         attendees: [], // New state for checkboxes
     });
+
+    const [isOther, setIsOther] = useState(!venueOptions.includes(data.venue));
+
+    const handleVenueChange = (e) => {
+        const value = e.target.value;
+        if (value === "Other") {
+            setIsOther(true);
+            setData("venue", "");
+        } else {
+            setIsOther(false);
+            setData("venue", value);
+        }
+    };
 
     const handleFileChange = (e) => {
         setData("image", e.target.files[0]);
@@ -102,21 +125,49 @@ export default function Create({ auth }) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="venue" value="Event venue" />
-                            <TextInput
+                            <InputLabel htmlFor="venue" value="Event Venue" />
+                            <select
                                 id="venue"
-                                type="text"
                                 name="venue"
-                                value={data.venue}
-                                className="mt-1 block w-full"
-                                onChange={(e) =>
-                                    setData("venue", e.target.value)
-                                }
-                            />
+                                value={isOther ? "Other" : data.venue}
+                                onChange={handleVenueChange}
+                                className="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                            >
+                                <option value="">Select Venue</option>
+                                {venueOptions.map((venue, index) => (
+                                    <option key={index} value={venue}>
+                                        {venue}
+                                    </option>
+                                ))}
+                            </select>
                             <InputError
                                 message={errors.venue}
                                 className="mt-2"
                             />
+
+                            {isOther && (
+                                <div className="mt-4">
+                                    <InputLabel
+                                        htmlFor="other_venue"
+                                        value="Other Venue"
+                                    />
+                                    <TextInput
+                                        id="other_venue"
+                                        type="text"
+                                        name="other_venue"
+                                        value={data.venue}
+                                        className="mt-1 block w-full"
+                                        onChange={(e) =>
+                                            setData("venue", e.target.value)
+                                        }
+                                        placeholder="Enter venue name"
+                                    />
+                                    <InputError
+                                        message={errors.venue}
+                                        className="mt-2"
+                                    />
+                                </div>
+                            )}
                         </div>
 
                         <div className="mt-4">
@@ -139,7 +190,7 @@ export default function Create({ auth }) {
                             />
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4 mt-4">
                             <div className="w-full">
                                 <InputLabel
                                     htmlFor="start"
