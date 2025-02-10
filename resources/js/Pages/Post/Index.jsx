@@ -62,6 +62,12 @@ export default function Index({ posts }) {
                                         <h3 className="text-base font-medium text-gray-900">
                                             {post.user.name}
                                         </h3>
+                                        <p className="text-sm text-gray-600">
+                                            Posted by{" "}
+                                            <span className="capitalize">
+                                                {post.author}
+                                            </span>
+                                        </p>
                                         <div className="flex space-x-1 text-sm text-gray-500">
                                             <time dateTime={post.created_at}>
                                                 {dayjs(post.created_at).format(

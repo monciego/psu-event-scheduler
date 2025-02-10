@@ -34,6 +34,7 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'post' => 'required|string',
+            'author' => 'required|string',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each file
         ]);
 
@@ -48,6 +49,7 @@ class PostController extends Controller
 
         $request->user()->posts()->create([
             'post' => $validated['post'],
+            'author' => $validated['author'],
             'images' => json_encode($uploadedImages), // Save as JSON
         ]);
 
@@ -77,6 +79,7 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'post' => 'required|string',
+            'author' => 'required|string',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each file
         ]);
 
@@ -94,6 +97,7 @@ class PostController extends Controller
 
         $post->update([
             'post' => $validated['post'],
+            'author' => $validated['author'],
             'images' => json_encode($uploadedImages), // Save as JSON
         ]);
 

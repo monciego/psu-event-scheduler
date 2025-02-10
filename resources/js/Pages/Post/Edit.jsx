@@ -3,6 +3,7 @@ import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
+import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import { useState } from "react";
 
@@ -15,6 +16,7 @@ export default function Edit({ postData }) {
 
     const { data, setData, post, processing, reset, errors } = useForm({
         post: postData.post || "",
+        author: postData.author || "",
         images: [],
         _method: "put",
     });
@@ -27,7 +29,6 @@ export default function Edit({ postData }) {
         e.preventDefault();
         post(route("posts.update", postData.id), {
             onSuccess: () => setConfirmingOpenModal(false),
-            onFinish: () => reset(),
         });
     };
 
@@ -80,6 +81,27 @@ export default function Edit({ postData }) {
                         </div>
 
                         <InputError message={errors.images} className="mt-2" />
+
+                        <div className="mt-4">
+                            <div>
+                                <InputLabel htmlFor="author" value="Author" />
+
+                                <TextInput
+                                    id="author"
+                                    type="text"
+                                    name="author"
+                                    value={data.author}
+                                    className="mt-1 block w-full"
+                                    onChange={(e) =>
+                                        setData("author", e.target.value)
+                                    }
+                                />
+                                <InputError
+                                    message={errors.author}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
                     </div>
 
                     <div className="mt-6 flex  gap-4 justify-end">
