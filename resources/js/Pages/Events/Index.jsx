@@ -7,19 +7,35 @@ import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { useState } from "react";
-
+import isBetween from "dayjs/plugin/isBetween"; // Import isBetween plugin
 dayjs.extend(LocalizedFormat);
+dayjs.extend(isBetween); // Extend Day.js with isBetween
 
 export default function Index({ events }) {
     const [search, setSearch] = useState("");
+    const [filter, setFilter] = useState("all");
 
     const handleDownload = () => {
         window.location.href = "/generate-event-report";
     };
 
-    const filteredEvents = events.filter((event) =>
-        event.title.toLowerCase().includes(search.toLowerCase())
-    );
+    const today = dayjs().startOf("day");
+
+    const filteredEvents = events
+        .filter((event) =>
+            event.title.toLowerCase().includes(search.toLowerCase())
+        )
+        .filter((event) => {
+            const startDate = dayjs(event.start);
+            const endDate = dayjs(event.end);
+
+            if (filter === "ongoing")
+                return today.isBetween(startDate, endDate, "day", "[]");
+            if (filter === "upcoming") return startDate.isAfter(today);
+            if (filter === "done") return endDate.isBefore(today);
+
+            return true; // Show all events if no filter is applied
+        });
 
     return (
         <AuthenticatedLayout>
@@ -39,7 +55,7 @@ export default function Index({ events }) {
                     </div>
                 </header>
 
-                <div className="mb-6">
+                <div className="flex gap-4 mb-6">
                     <input
                         type="text"
                         placeholder="Search events..."
@@ -47,6 +63,16 @@ export default function Index({ events }) {
                         onChange={(e) => setSearch(e.target.value)}
                         className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
+                    <select
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                        <option value="all">All</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="done">Done</option>
+                    </select>
                 </div>
 
                 <div className="mx-auto grid gap-5 lg:grid-cols-2 lg:max-w-none">
@@ -137,8 +163,6 @@ export default function Index({ events }) {
                                                         })
                                                         .join(", ")}
                                                 </p>
-
-                                                {/*                                                 {event.attendees} */}
                                             </div>
                                             <div className="block mt-2">
                                                 <p className="text-xl font-semibold text-gray-900">
