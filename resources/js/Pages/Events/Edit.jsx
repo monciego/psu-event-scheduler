@@ -86,7 +86,6 @@ export default function Edit({ eventData }) {
         e.preventDefault();
         post(route("events.update", eventData.id), {
             onSuccess: () => setConfirmingOpenModal(false),
-            onFinish: () => reset(),
         });
     };
 
@@ -124,27 +123,6 @@ export default function Edit({ eventData }) {
 
                             <InputError
                                 message={errors.image}
-                                className="mt-2"
-                            />
-                        </div>
-
-                        <div className="mt-4">
-                            <InputLabel htmlFor="title" value="Event name" />
-
-                            <TextInput
-                                id="title"
-                                type="text"
-                                name="title"
-                                value={data.title}
-                                className="mt-1 block w-full"
-                                autoComplete="event-name"
-                                onChange={(e) =>
-                                    setData("title", e.target.value)
-                                }
-                            />
-
-                            <InputError
-                                message={errors.title}
                                 className="mt-2"
                             />
                         </div>
